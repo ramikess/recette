@@ -28,7 +28,15 @@
                     <a href="{{ path('app_recipe_edit', {'id': recipe.id}) }}" class="btn btn-sm btn-warning">
                         ✏️ Modifier
                     </a>
+                    <form method="post"
+                          action="{{ path('app_recipe_delete', {'id': recipe.id}) }}"
+                          class="d-inline"
+                          onsubmit="return confirm('Voulez-vous vraiment supprimer cette recette ?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ recipe.id) }}">
+                        <button class="btn btn-sm btn-outline-danger">🗑️ Supprimer</button>
+                    </form>
                 </td>
+
             </tr>
         {% else %}
             <tr>

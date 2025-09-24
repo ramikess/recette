@@ -85,4 +85,15 @@ final class RecipeController extends AbstractController
             'form' => $form,
         ]);
     }
+
+    #[Route('/{id}', name: 'app_recipe_delete', methods: ['POST'])]
+    public function delete(Request $request, Recipe $recipe, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$recipe->getId(), $request->getPayload()->getString('_token'))) {
+            $entityManager->remove($recipe);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_recipe_index', [], Response::HTTP_SEE_OTHER);
+    }
 }

@@ -17,6 +17,7 @@ class RecipeType extends AbstractType
             ->add('name')
             ->add('content', TextareaType::class)
             ->add('ingredients', CollectionType::class, [
+                'label' => false,
                 'entry_type' => IngredientType::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
