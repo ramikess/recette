@@ -1,0 +1,58 @@
+<div class="card shadow-sm">
+    <div class="card-body">
+        {{ form_start(form) }}
+
+        <div class="mb-3">
+            {{ form_label(form.name, null, {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+            <div class="form-text text-danger">{{ form_errors(form.name) }}</div>
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.content, null, {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.content, {'attr': {'class': 'form-control', 'rows': 5}}) }}
+            <div class="form-text text-danger">{{ form_errors(form.content) }}</div>
+        </div>
+
+        <div class="mb-3">
+            <h4 class="h5">Ingrédients</h4>
+            <div {{ stimulus_controller('collection', {
+                'add-label': 'Ajouter un ingrédient',
+                'delete-label': 'Supprimer'
+            }) }}>
+                <div class="ingredient-list"
+                     data-collection-target="collectionContainer"
+                     data-prototype="
+                         <div class='ingredient-item mb-2 p-3 border rounded d-flex align-items-center gap-2'>
+                             {{ form_widget(form.ingredients.vars.prototype, {'attr': {'class': 'form-control'}})|e('html_attr') }}
+                             <button type='button' class='btn btn-sm btn-danger'
+                                     data-action='click->collection#deleteCollectionElement'>
+                                 ✖
+                             </button>
+                         </div>
+                     ">
+                    {% for ingredient in form.ingredients %}
+                        <div class="ingredient-item mb-2 p-3 border rounded d-flex align-items-center gap-2">
+                            {{ form_widget(ingredient, {'attr': {'class': 'form-control'}}) }}
+                            <button type="button"
+                                    class="btn btn-sm btn-danger"
+                                    data-action="click->collection#deleteCollectionElement">
+                                ✖
+                            </button>
+                        </div>
+                    {% endfor %}
+                </div>
+                <button type="button"
+                        class="btn btn-secondary mt-2"
+                        data-action="click->collection#addCollectionElement">
+                    ➕ Ajouter un ingrédient
+                </button>
+            </div>
+            <div class="form-text text-danger">{{ form_errors(form.ingredients) }}</div>
+        </div>
+
+        <button class="btn btn-primary"> 💾 Enregistrer </button>
+
+        {{ form_end(form) }}
+    </div>
+</div>

@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil - Cooking Site{% endblock %}
+
+{% block body %}
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold text-primary">🍳 Bienvenue sur mon site de cuisine</h1>
+            <p class="lead text-muted">
+                Découvrez, partagez et créez vos meilleures recettes maison.<br>
+                Et profitez d’un outil intelligent qui calcule automatiquement le nombre de <strong>calories</strong> de vos ingrédients !
+            </p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">📖 Recettes</h5>
+                        <p class="card-text text-muted">Parcourez notre collection de recettes variées et savoureuses.</p>
+                        <a href="{{ path('app_recipe_index') }}" class="btn btn-primary">Voir les recettes</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

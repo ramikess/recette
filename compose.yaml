@@ -1,20 +1,61 @@
 
 services:
-###> doctrine/doctrine-bundle ###
+  networth-php:
+    build: docker/php
+    container_name: networth-php
+    volumes:
+      - .:/var/www/symfony:delegated
+    working_dir: /var/www/symfony
+    networks:
+      - symfony
+
+  networth-nginx:
+    build: docker/nginx
+    container_name: networth-nginx
+    ports:
+      - "8183:80"
+    volumes:
+      - ./docker/nginx/sites-enabled/site.conf:/etc/nginx/sites-enabled/site.conf:ro
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - .:/var/www/symfony:delegated
+    depends_on:
+      - networth-php
+    networks:
+      - symfony
+  ###> doctrine/doctrine-bundle ###
   database:
+    container_name: networth-database
     image: postgres:${POSTGRES_VERSION:-16}-alpine
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
-      POSTGRES_USER: ${POSTGRES_USER:-app}
+      POSTGRES_DB: rami
+      POSTGRES_USER: rami
+      POSTGRES_PASSWORD: rami
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-d", "rami", "-U", "rami" ]
+      timeout: 5s
+      retries: 5
+      start_period: 60s
     volumes:
       - database_data:/var/lib/postgresql/data:rw
+    networks:
+      - symfony
+  yarn:
+    build: docker/yarn
+    volumes:
+      - .:/srv
+    networks:
+      - symfony
+
       # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
       # - ./docker/db/data:/var/lib/postgresql/data:rw
 ###< doctrine/doctrine-bundle ###
 
 volumes:
-###> doctrine/doctrine-bundle ###
+  ###> doctrine/doctrine-bundle ###
   database_data:
 ###< doctrine/doctrine-bundle ###
+networks:
+  symfony:
+    driver: bridge

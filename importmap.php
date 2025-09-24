@@ -25,4 +25,11 @@ return [
     '@hotwired/turbo' => [
         'version' => '7.3.0',
     ],
+    'simpledotcss' => [
+        'version' => '2.3.7',
+    ],
+    'simpledotcss/simple.min.css' => [
+        'version' => '2.3.7',
+        'type' => 'css',
+    ],
 ];

@@ -10,15 +10,27 @@ services:
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        bind:
+            # Nutritionix credentials
+            $nutritionixAppId: '%env(NUTRITIONIX_APP_ID)%'
+            $nutritionixAppKey: '%env(NUTRITIONIX_APP_KEY)%'
+
+            # Nutritionix API URL parts
+            $nutritionixApiProtocol: '%env(NUTRITIONIX_API_PROTOCOL)%'
+            $nutritionixApiHost: '%env(NUTRITIONIX_API_HOST)%'
+            $nutritionixApiVersion: '%env(NUTRITIONIX_API_VERSION)%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/'
-        exclude:
-            - '../src/DependencyInjection/'
-            - '../src/Entity/'
-            - '../src/Kernel.php'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+
+    App\Service\Nutrition\QueryNormalizer\NutritionQueryNormalizerResolver:
+        arguments:
+            $normalizers:
+                - '@App\Service\Nutrition\QueryNormalizer\RecipeQueryNormalizer'
+                - '@App\Service\Nutrition\QueryNormalizer\ExerciseQueryNormalizer'
