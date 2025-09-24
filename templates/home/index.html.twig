@@ -4,21 +4,33 @@
 
 {% block body %}
     <div class="container py-5">
+        <!-- Hero -->
         <div class="text-center mb-5">
-            <h1 class="display-4 fw-bold text-primary">🍳 Bienvenue sur mon site de cuisine</h1>
+            <h1 class="display-4 fw-bold text-primary">
+                🍳 Bienvenue sur Cooking Site
+            </h1>
             <p class="lead text-muted">
                 Découvrez, partagez et créez vos meilleures recettes maison.<br>
-                Et profitez d’un outil intelligent qui calcule automatiquement le nombre de <strong>calories</strong> de vos ingrédients !
+                Et profitez d’un outil intelligent qui calcule automatiquement le nombre de
+                <strong>calories</strong> de vos ingrédients !
             </p>
+            <a href="{{ path('app_recipe_new') }}" class="btn btn-lg btn-success shadow mt-3">
+                ➕ Créer ma première recette
+            </a>
         </div>
 
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="card shadow-sm h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">📖 Recettes</h5>
-                        <p class="card-text text-muted">Parcourez notre collection de recettes variées et savoureuses.</p>
-                        <a href="{{ path('app_recipe_index') }}" class="btn btn-primary">Voir les recettes</a>
+        <!-- Carte Recettes -->
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow-sm h-100 border-0">
+                    <div class="card-body text-center">
+                        <h5 class="card-title fw-bold">📖 Recettes</h5>
+                        <p class="card-text text-muted">
+                            Parcourez notre collection de recettes variées et savoureuses, prêtes à être testées.
+                        </p>
+                        <a href="{{ path('app_recipe_index') }}" class="btn btn-primary">
+                            Voir les recettes
+                        </a>
                     </div>
                 </div>
             </div>

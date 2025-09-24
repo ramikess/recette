@@ -4,7 +4,9 @@ export default class extends Controller {
     static targets = ['collectionContainer'];
 
     addCollectionElement(event) {
+        // empêche le comportement par défaut du bouton
         event.preventDefault();
+        // récupère le prototype HTML défini dans ton Twig
         const prototype = this.collectionContainerTarget.dataset.prototype;
         const index = this.collectionContainerTarget.children.length;
 
