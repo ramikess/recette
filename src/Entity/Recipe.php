@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\RecipeRepository;
@@ -33,7 +35,6 @@ class Recipe
 
     public function __construct()
     {
-        $this->topics = new ArrayCollection();
         $this->ingredients = new ArrayCollection();
     }
 
@@ -47,11 +48,9 @@ class Recipe
         return $this->name;
     }
 
-    public function setName(string $name): static
+    public function setName(string $name): void
     {
         $this->name = $name;
-
-        return $this;
     }
 
     public function getContent(): string
@@ -59,11 +58,9 @@ class Recipe
         return $this->content;
     }
 
-    public function setContent(string $content): static
+    public function setContent(string $content): void
     {
         $this->content = $content;
-
-        return $this;
     }
 
     /**
@@ -74,22 +71,18 @@ class Recipe
         return $this->ingredients;
     }
 
-    public function addIngredient(Ingredient $ingredient): static
+    public function addIngredient(Ingredient $ingredient): void
     {
         if (!$this->ingredients->contains($ingredient)) {
             $this->ingredients->add($ingredient);
             $ingredient->addRecipe($this);
         }
-
-        return $this;
     }
 
-    public function removeIngredient(Ingredient $ingredient): static
+    public function removeIngredient(Ingredient $ingredient): void
     {
         if ($this->ingredients->removeElement($ingredient)) {
             $ingredient->removeRecipe($this);
         }
-
-        return $this;
     }
 }

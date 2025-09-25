@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\RecipeRepository;
@@ -49,11 +51,9 @@ class Ingredient
         return $this->name;
     }
 
-    public function setName(string $name): static
+    public function setName(string $name): void
     {
         $this->name = $name;
-
-        return $this;
     }
 
     public function getQuantity(): ?string
@@ -61,11 +61,9 @@ class Ingredient
         return $this->quantity;
     }
 
-    public function setQuantity(?string $quantity): static
+    public function setQuantity(?string $quantity): void
     {
         $this->quantity = $quantity;
-
-        return $this;
     }
 
     public function getCalories(): float
@@ -78,30 +76,18 @@ class Ingredient
         $this->calories = $calories;
     }
 
-    /**
-     * @return Collection<int, Recipe>
-     */
-    public function getRecipes(): Collection
-    {
-        return $this->recipes;
-    }
-
-    public function addRecipe(Recipe $recipe): static
+    public function addRecipe(Recipe $recipe): void
     {
         if (!$this->recipes->contains($recipe)) {
             $this->recipes->add($recipe);
             $recipe->addIngredient($this);
         }
-
-        return $this;
     }
 
-    public function removeRecipe(Recipe $recipe): static
+    public function removeRecipe(Recipe $recipe): void
     {
         if ($this->recipes->removeElement($recipe)) {
             $recipe->removeIngredient($this);
         }
-
-        return $this;
     }
 }
