@@ -1,6 +1,6 @@
 # 🚀 Installation front Symfony avec Webpack Encore, Stimulus, Turbo et Bootstrap
 
-## 🔹 Étape 4 : Installer le bundle Symfony
+## 🔹 Étape 1 : Installer le bundle Symfony
 
 ```bash
 composer require symfony/webpack-encore-bundle
@@ -8,7 +8,7 @@ composer require symfony/webpack-encore-bundle
 
 ---
 
-## 🔹 Étape 5 : Installer Webpack Encore et ses dépendances
+## 🔹 Étape 2 : Installer Webpack Encore et ses dépendances
 
 ```bash
 yarn add --dev @symfony/webpack-encore
@@ -20,7 +20,7 @@ yarn add --dev sass-loader sass css-loader mini-css-extract-plugin
 
 ---
 
-## 🔹 Étape 6 : Installer Babel et ses presets
+## 🔹 Étape 3 : Installer Babel et ses presets
 
 ```bash
 yarn add --dev @babel/core @babel/preset-env babel-loader core-js regenerator-runtime
@@ -33,7 +33,7 @@ yarn add --dev @babel/core @babel/preset-env babel-loader core-js regenerator-ru
 
 ---
 
-## 🔹 Étape 7 : Installer Stimulus
+## 🔹 Étape 4 : Installer Stimulus
 
 ```bash
 composer require symfony/stimulus-bundle
@@ -42,7 +42,7 @@ yarn add @hotwired/stimulus @symfony/stimulus-bridge
 
 ---
 
-## 🔹 Étape 8 : Modifier `bootstrap.js`
+## 🔹 Étape 5 : Modifier `bootstrap.js`
 
 👉 Fichier : `assets/bootstrap.js`
 
@@ -65,7 +65,7 @@ export default app;
 
 ---
 
-## 🔹 Étape 9 : Installer Turbo et Bootstrap
+## 🔹 Étape 6 : Installer Turbo et Bootstrap
 
 ### Turbo
 ```bash
