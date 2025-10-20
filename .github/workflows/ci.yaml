@@ -10,9 +10,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    # 👇 Bloc d'environnement global au job
+    env:
+      APP_ENV: test
+      APP_SECRET: ${{ secrets.APP_SECRET }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      MONGODB_URL: ${{ secrets.MONGODB_URL }}
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
@@ -20,8 +27,15 @@ jobs:
           php-version: '8.4'
           extensions: mbstring, intl, pdo_mysql
 
+      - name: Validate composer.json
+        run: composer validate --strict
+
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-interaction
+
+      # (Optionnel mais recommandé)
+      - name: Cache Symfony
+        run: php bin/console cache:warmup
 
       - name: Run PHPUnit tests
         run: vendor/bin/phpunit --testdox
