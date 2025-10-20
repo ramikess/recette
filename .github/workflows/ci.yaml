@@ -23,7 +23,10 @@ jobs:
         run: composer validate
 
       - name: Install dependencies
-        run: composer install --prefer-dist --no-progress --no-interaction
+        run: composer install --prefer-dist --no-interaction --no-progress --optimize-autoloader --ansi
+        env:
+          APP_ENV: test
+          DATABASE_URL: mongodb://rami:rami@database:27017/rami?authSource=admin
 
       # (Optionnel mais recommandé)
       - name: Cache Symfony
