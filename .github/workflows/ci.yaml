@@ -13,9 +13,7 @@ jobs:
     # 👇 Bloc d'environnement global au job
     env:
       APP_ENV: test
-      APP_SECRET: ${{ secrets.APP_SECRET }}
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      MONGODB_URL: ${{ secrets.MONGODB_URL }}
+      MONGODB_URL: ${{ vars.MONGODB_URL }}
 
     steps:
       - name: Checkout code
