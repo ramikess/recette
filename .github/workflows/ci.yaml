@@ -11,9 +11,7 @@ jobs:
     name: 🧪 Unit Tests
     runs-on: ubuntu-latest
     env:
-      APP_ENV: test
-      MONGODB_URL: mongodb://fakeuser:fakepass@localhost:27017/fake_db?authSource=admin
-      MONGODB_DB: fake_db
+      APP_ENV: test_unit
 
     steps:
       - name: Checkout code
