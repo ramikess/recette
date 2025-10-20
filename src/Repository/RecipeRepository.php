@@ -2,17 +2,8 @@
 
 namespace App\Repository;
 
-use App\Entity\Recipe;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
 
-/**
- * @extends ServiceEntityRepository<Recipe>
- */
-class RecipeRepository extends ServiceEntityRepository
+class RecipeRepository extends DocumentRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Recipe::class);
-    }
 }

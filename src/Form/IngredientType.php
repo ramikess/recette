@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Ingredient;
+use App\Document\Ingredient;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;

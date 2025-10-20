@@ -2,35 +2,34 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Document;
 
 use App\Repository\RecipeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ODM\MongoDB\Mapping\Annotations\Document;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
-#[ORM\Entity(repositoryClass: RecipeRepository::class)]
+
+#[Document(collection: "recipes", repositoryClass: RecipeRepository::class)]
 class Recipe
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private int $id;
+    #[ODM\Id]
+    private string $id;
 
-    #[ORM\Column(length: 255)]
+    #[ODM\Field(type: "string")]
     private string $name;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ODM\Field(type: "string")]
     private string $content;
 
-    /**
-     * @var Collection<int, Ingredient>
-     */
-    #[ORM\ManyToMany(targetEntity: Ingredient::class, inversedBy: 'recipes', cascade: [
-        'persist',
-        'remove',
-    ], orphanRemoval: true)]
+    /** @var Collection<int, Ingredient> */
+    #[ODM\ReferenceMany(
+        storeAs: "id",
+        targetDocument: Ingredient::class,
+        cascade: ["persist", "remove"],
+        inversedBy: "recipes",
+    )]
     private Collection $ingredients;
 
     public function __construct()
@@ -38,7 +37,7 @@ class Recipe
         $this->ingredients = new ArrayCollection();
     }
 
-    public function getId(): int
+    public function getId(): string
     {
         return $this->id;
     }
@@ -63,9 +62,7 @@ class Recipe
         $this->content = $content;
     }
 
-    /**
-     * @return Collection<int, Ingredient>
-     */
+    /** @return Collection<int, Ingredient> */
     public function getIngredients(): Collection
     {
         return $this->ingredients;

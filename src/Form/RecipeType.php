@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Recipe;
+use App\Document\Recipe;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;

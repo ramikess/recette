@@ -25,20 +25,16 @@ services:
   ###> doctrine/doctrine-bundle ###
   database:
     container_name: networth-database
-    image: postgres:${POSTGRES_VERSION:-16}-alpine
+    image: mongo:7.0
+    restart: always
     environment:
-      POSTGRES_DB: rami
-      POSTGRES_USER: rami
-      POSTGRES_PASSWORD: rami
+      MONGO_INITDB_ROOT_USERNAME: rami
+      MONGO_INITDB_ROOT_PASSWORD: rami
+      MONGO_INITDB_DATABASE: rami
     ports:
-      - "5433:5432"
-    healthcheck:
-      test: [ "CMD", "pg_isready", "-d", "rami", "-U", "rami" ]
-      timeout: 5s
-      retries: 5
-      start_period: 60s
+      - "27017:27017"
     volumes:
-      - database_data:/var/lib/postgresql/data:rw
+      - mongodb_data:/data/db
     networks:
       - symfony
   yarn:
@@ -54,7 +50,7 @@ services:
 
 volumes:
   ###> doctrine/doctrine-bundle ###
-  database_data:
+  mongodb_data:
 ###< doctrine/doctrine-bundle ###
 networks:
   symfony:

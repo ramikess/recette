@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Service\Nutrition\QueryNormalizer;
 
-use App\Entity\Ingredient;
-use App\Entity\Recipe;
+use App\Document\Ingredient;
+use App\Document\Recipe;
 use App\Enum\NutritionAnalysisType;
 
 class RecipeQueryNormalizer implements NutritionQueryNormalizerInterface

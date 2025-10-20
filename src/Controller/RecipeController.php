@@ -2,14 +2,14 @@
 
 namespace App\Controller;
 
-use App\Entity\Recipe;
+use App\Document\Recipe;
 use App\Enum\NutritionAnalysisType;
 use App\Form\RecipeType;
 use App\Repository\RecipeRepository;
 use App\Service\Nutrition\CaloriesCalculator;
 use App\Service\Nutrition\NutritionProviderInterface;
 use App\Service\Nutrition\QueryNormalizer\NutritionQueryNormalizerResolver;
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,17 +19,17 @@ use Symfony\Component\Routing\Attribute\Route;
 final class RecipeController extends AbstractController
 {
     #[Route(name: 'app_recipe_index', methods: ['GET'])]
-    public function index(RecipeRepository $recipeRepository): Response
+    public function index(DocumentManager $documentManager): Response
     {
         return $this->render('recipe/index.html.twig', [
-            'recipes' => $recipeRepository->findAll(),
+            'recipes' => $documentManager->getRepository(Recipe::class)->findAll(),
         ]);
     }
 
     #[Route('/new', name: 'app_recipe_new', methods: ['GET', 'POST'])]
     public function new(
         Request $request,
-        EntityManagerInterface $entityManager,
+        DocumentManager $documentManager,
     ): Response {
         $recipe = new Recipe();
         $form = $this->createForm(RecipeType::class, $recipe);
@@ -38,8 +38,8 @@ final class RecipeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $recipe = $form->getData();
-            $entityManager->persist($recipe);
-            $entityManager->flush();
+            $documentManager->persist($recipe);
+            $documentManager->flush();
 
             return $this->redirectToRoute('app_recipe_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -56,9 +56,9 @@ final class RecipeController extends AbstractController
         NutritionQueryNormalizerResolver $normalizerResolver,
         CaloriesCalculator $caloriesCalculator,
     ): Response {
-        $query = $normalizerResolver->normalize($recipe, NutritionAnalysisType::Recipe);
-        $nutritionData = $nutritionProvider->analyze($query, NutritionAnalysisType::Recipe);
-        $caloriesCalculator->hydrateIngredientsCalorie($recipe->getIngredients(), $nutritionData);
+      //  $query = $normalizerResolver->normalize($recipe, NutritionAnalysisType::Recipe);
+       // $nutritionData = $nutritionProvider->analyze($query, NutritionAnalysisType::Recipe);
+      //  $caloriesCalculator->hydrateIngredientsCalorie($recipe->getIngredients(), $nutritionData);
 
         return $this->render('recipe/show.html.twig', [
             'recipe' => $recipe,
@@ -69,13 +69,13 @@ final class RecipeController extends AbstractController
     public function edit(
         Request $request,
         Recipe $recipe,
-        EntityManagerInterface $entityManager,
+        DocumentManager $documentManager,
     ): Response {
         $form = $this->createForm(RecipeType::class, $recipe);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            $documentManager->flush();
 
             return $this->redirectToRoute('app_recipe_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -87,11 +87,11 @@ final class RecipeController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_recipe_delete', methods: ['POST'])]
-    public function delete(Request $request, Recipe $recipe, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Recipe $recipe, DocumentManager $documentManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$recipe->getId(), $request->getPayload()->getString('_token'))) {
-            $entityManager->remove($recipe);
-            $entityManager->flush();
+            $documentManager->remove($recipe);
+            $documentManager->flush();
         }
 
         return $this->redirectToRoute('app_recipe_index', [], Response::HTTP_SEE_OTHER);

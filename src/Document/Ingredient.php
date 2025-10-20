@@ -2,33 +2,32 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Document;
 
-use App\Repository\RecipeRepository;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: RecipeRepository::class)]
+#[ODM\Document(collection: "ingredients")]
 class Ingredient
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private int $id;
+    #[ODM\Id]
+    private string $id;
 
-    #[ORM\Column(length: 255)]
+    #[ODM\Field(type: "string")]
     private string $name;
 
-    #[ORM\Column(length: 50, nullable: true)]
+    #[ODM\Field(type: "string", nullable: true)]
     private ?string $quantity = null;
 
+    #[ODM\Field(type: "float")]
     private float $calories = 0;
 
-    /**
-     * @var Collection<int, Recipe>
-     */
-    #[ORM\ManyToMany(targetEntity: Recipe::class, mappedBy: 'ingredients')]
+    /** @var Collection<int, Recipe> */
+    #[ODM\ReferenceMany(
+        targetDocument: Recipe::class,
+        mappedBy: "ingredients"
+    )]
     private Collection $recipes;
 
     public function __construct()
@@ -41,7 +40,7 @@ class Ingredient
         return sprintf('%s (%s)', $this->name, $this->quantity ?? 'inconnu');
     }
 
-    public function getId(): int
+    public function getId(): string
     {
         return $this->id;
     }
@@ -91,3 +90,6 @@ class Ingredient
         }
     }
 }
+
+
+
