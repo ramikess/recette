@@ -3,7 +3,7 @@ doctrine_mongodb:
     default:
       server: '%env(resolve:MONGODB_URL)%'
       options: {}
-  default_database: rami
+  default_database: '%env(resolve:MONGODB_DB)%'
   document_managers:
     default:
       auto_mapping: true
