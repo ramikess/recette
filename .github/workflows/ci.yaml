@@ -10,11 +10,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    # 👇 Bloc d'environnement global au job
-    env:
-      APP_ENV: test
-      MONGODB_URL: ${{ vars.MONGODB_URL }}
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -23,20 +18,9 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.4'
-          extensions: mbstring, intl, pdo_mysql
 
       - name: Validate composer.json
         run: composer validate
-
-      - name: Debug MongoDB URL
-        run: |
-          echo "Value check (do NOT display real secret)"
-          if [ -z "$MONGODB_URL" ]; then
-            echo "❌ MONGODB_URL is empty"
-            exit 1
-          else
-            echo "✅ MONGODB_URL is set"
-          fi
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-interaction
@@ -47,3 +31,4 @@ jobs:
 
       - name: Run PHPUnit tests
         run: vendor/bin/phpunit --testdox
+
