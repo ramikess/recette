@@ -1,4 +1,6 @@
 {
+    "name": "recette/mon-projet",
+    "description": "Application Symfony interne",
     "type": "project",
     "license": "proprietary",
     "minimum-stability": "stable",
