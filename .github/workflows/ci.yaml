@@ -28,10 +28,6 @@ jobs:
           APP_ENV: test
           DATABASE_URL: mongodb://rami:rami@database:27017/rami?authSource=admin
 
-      # (Optionnel mais recommandé)
-      - name: Cache Symfony
-        run: php bin/console cache:warmup
-
       - name: Run PHPUnit tests
         run: vendor/bin/phpunit --testdox
 
