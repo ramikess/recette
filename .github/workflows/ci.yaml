@@ -7,8 +7,23 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  test:
+    name: Tests
     runs-on: ubuntu-latest
+    services:
+      database:
+        image: mongo:7.0
+        env:
+          MONGO_INITDB_ROOT_USERNAME: root
+          MONGO_INITDB_ROOT_PASSWORD: root
+          MONGO_INITDB_DATABASE: app_test
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd="mongosh --username root --password root --eval 'db.adminCommand(\"ping\")'"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
 
     steps:
       - name: Checkout code
@@ -26,7 +41,7 @@ jobs:
         run: composer install --prefer-dist --no-interaction --no-progress --optimize-autoloader --ansi
         env:
           APP_ENV: test
-          DATABASE_URL: mongodb://rami:rami@database:27017/rami?authSource=admin
+          MONGODB_URL: mongodb://root:root@database:${{ job.services.database.ports['27017'] }}/app_test?authSource=admin
 
       - name: Run PHPUnit tests
         run: vendor/bin/phpunit --testdox
