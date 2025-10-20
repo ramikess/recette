@@ -10,8 +10,19 @@ jobs:
   unit-tests:
     name: 🧪 Unit Tests
     runs-on: ubuntu-latest
-    env:
-      APP_ENV: test_unit
+    env: # 👈 Variables visibles par toutes les steps du job
+      APP_ENV: test
+      MONGODB_URL: mongodb://root:root@database:27017/app_test?authSource=admin
+      MONGODB_DB: app_test
+
+    services:
+      database:
+        image: mongo:7.0
+        env:
+          MONGO_INITDB_ROOT_USERNAME: root
+          MONGO_INITDB_ROOT_PASSWORD: root
+        ports:
+          - 27017:27017
 
     steps:
       - name: Checkout code
