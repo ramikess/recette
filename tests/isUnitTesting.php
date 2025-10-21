@@ -23,20 +23,12 @@ function getCliOptionValue(array $argv, string $option): ?string
     return trim($value, "\"'");
 }
 
-$filterValue = getCliOptionValue($arguments, '--filter');
+$filterValue = getCliOptionValue($arguments, '--testsuite');
 
-$hasUnitNamespace = false;
+$isUnitTests = true;
 
-if ($filterValue !== null) {
-    // Cas 1 : exactement "Unit"
-    if (strcasecmp($filterValue, 'Unit') === 0) {
-        $hasUnitNamespace = true;
-    }
-
-    // Cas 2 : contient \Unit\ ou /Unit/
-    if (preg_match('~[\\\\/]Unit[\\\\/]~i', $filterValue)) {
-        $hasUnitNamespace = true;
-    }
+if (strcasecmp($filterValue, 'integration') === 0) {
+    $isUnitTests = false;
 }
 
-return $hasUnitNamespace;
+return $isUnitTests;
